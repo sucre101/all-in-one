@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.7"
 
 networks:
   traefik:
@@ -31,10 +31,10 @@ services:
     networks:
       - traefik
 
-  nginx_laravel:
+  nginx_node:
     image: nginx
     environment:
-      - NGINX_HOST=nginx.docker.localhost
+      - NGINX_HOST=${HOST_LARAVEL_VUE}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
@@ -46,6 +46,24 @@ services:
     volumes:
       - './docker/nginx:/etc/nginx/conf.d/'
       - './backend/laravel:/var/www'
+    networks:
+      - traefik
+
+  nginx_laravel:
+    image: nginx
+    environment:
+      - NGINX_HOST=${HOST_LARAVEL_VUE}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.nginx_laravel.entrypoints=web"
+      - "traefik.http.routers.nginx_laravel.rule=HostRegexp(`{domain:.+}`)"
+      - "traefik.http.routers.nginx_laravel.priority=1"
+      - "traefik.http.routers.nginx_laravel.service=nginx_laravel"
+      - "traefik.http.services.nginx_laravel.loadbalancer.server.port=80"
+    volumes:
+      - './docker/nginx:/etc/nginx/conf.d/'
+      - './backend/laravel:.'
     networks:
       - traefik
     links:
@@ -71,3 +89,22 @@ services:
       - "traefik.enable=false"
     networks:
       - traefik
+
+  node-server:
+    build:
+      context: '.'
+      dockerfile: ./docker/node/Dockerfile
+    container_name: node-server
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.node-server.entrypoints=web"
+      - "traefik.http.routers.node-server.rule=Host(`traefik.docker.node`)" # work with /api
+      - "traefik.http.routers.node-server.priority=1"
+      - "traefik.http.routers.node-server.service=node-server"
+      - "traefik.http.services.node-server.loadbalancer.server.port=80"
+    volumes:
+      - './backend/node:/app'
+    networks:
+      - traefik
+    tty: true
