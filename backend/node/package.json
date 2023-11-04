@@ -1,7 +1,20 @@
 {
-  "name": "node",
+  "name": "node-express-api-backend",
   "version": "1.0.0",
+  "author": "Alex K <vaniulen84@gmail.com>",
+  "main": "server.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon -L server.js"
+  },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mariadb": "^3.2.2",
+    "sequelize": "^6.34.0"
+  },
+  "devDependencies": {
+    "body-parser": "^1.20.2",
+    "nodemon": "^3.0.1"
   }
 }

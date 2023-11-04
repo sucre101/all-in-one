@@ -17,6 +17,7 @@ services:
       - "--entrypoints.web.address=:80"
       - "--entryPoints.web.forwardedHeaders.insecure"
       - "--entryPoints.websecure.address=:443"
+      - "--entrypoints.mysql.address=:3306"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.entrypoints=web"
@@ -26,6 +27,7 @@ services:
       - "80:80"
       - "8080:8080"
       - "443:443"
+      - "3306:3306"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
@@ -95,6 +97,9 @@ services:
       context: '.'
       dockerfile: ./docker/node/Dockerfile
     container_name: node-server
+    command: npm run dev
+    depends_on:
+      - mysqldb
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
@@ -108,3 +113,21 @@ services:
     networks:
       - traefik
     tty: true
+
+  mysqldb:
+    image: 'mariadb:10.2'
+    restart: unless-stopped
+    volumes:
+      - './mysqldb:/var/lib/mysql'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.mysqldb.rule=HostSNI(`*`)"
+      - "traefik.tcp.services.mysqldb.loadbalancer.server.port=3306"
+      - "traefik.tcp.routers.mysqldb.entrypoints=mysql"
+    networks:
+      - traefik
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test
