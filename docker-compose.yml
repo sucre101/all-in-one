@@ -9,7 +9,7 @@ services:
     image: "traefik:v2.10"
     container_name: "traefik"
     command:
-      #- "--log.level=DEBUG"
+      - "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--api.dashboard=true"
       - "--providers.docker=true"
@@ -33,24 +33,6 @@ services:
     networks:
       - traefik
 
-  nginx_node:
-    image: nginx
-    environment:
-      - NGINX_HOST=${HOST_LARAVEL_VUE}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik"
-      - "traefik.http.routers.nginx_laravel.entrypoints=web"
-      - "traefik.http.routers.nginx_laravel.rule=HostRegexp(`{domain:.+}`)"
-      - "traefik.http.routers.nginx_laravel.priority=1"
-      - "traefik.http.routers.nginx_laravel.service=nginx_laravel"
-      - "traefik.http.services.nginx_laravel.loadbalancer.server.port=80"
-    volumes:
-      - './docker/nginx:/etc/nginx/conf.d/'
-      - './backend/laravel:/var/www'
-    networks:
-      - traefik
-
   nginx_laravel:
     image: nginx
     environment:
@@ -65,7 +47,7 @@ services:
       - "traefik.http.services.nginx_laravel.loadbalancer.server.port=80"
     volumes:
       - './docker/nginx:/etc/nginx/conf.d/'
-      - './backend/laravel:.'
+      - './backend/laravel:/var/www'
     networks:
       - traefik
     links:
