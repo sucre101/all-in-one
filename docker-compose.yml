@@ -55,6 +55,8 @@ services:
     depends_on:
       - laravel
 
+  # TODO: create server authorization (jwt auth)
+
   laravel:
     build:
       args:
@@ -71,6 +73,8 @@ services:
       - './backend/laravel:/var/www'
     labels:
       - "traefik.enable=false"
+    links:
+      - mysqldb
     networks:
       - traefik
 
@@ -95,6 +99,11 @@ services:
     networks:
       - traefik
     tty: true
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
 
   mysqldb:
     image: 'mariadb:10.2'
