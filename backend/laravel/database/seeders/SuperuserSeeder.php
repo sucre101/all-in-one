@@ -2,20 +2,20 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class SuperuserSeeder extends Seeder
 {
-    use WithoutModelEvents;
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      */
     public function run(): void
     {
-        $this->call([
-            SuperuserSeeder::class,
-            TaskSeeder::class,
+        User::factory()->create([
+            'name' => 'Alexander',
+            'email' => 'vaniulen@mail.ru'
         ]);
     }
 }
