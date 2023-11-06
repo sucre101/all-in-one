@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TaskCollection;
+use App\Http\Resources\TaskResource;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -12,7 +15,10 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'tasks' =>  new TaskCollection(Task::paginate(5)),
+        ]);
     }
 
     /**

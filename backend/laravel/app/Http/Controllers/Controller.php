@@ -13,6 +13,8 @@ class Controller extends BaseController
 
     public function __construct(Request $request)
     {
-        if (!$request->isJson()) abort(403, 'Sorry. Who are you ?');
+        if (!$request->isJson() && $request->getScriptName() !== 'artisan') {
+            abort(403, 'Sorry. Who are you ?');
+        }
     }
 }

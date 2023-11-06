@@ -14,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', ['App\Http\Controllers\UserController', 'index']);
-Route::get('/tasks', ['App\Http\Controllers\TaskController', 'index']);
+//Route::get('/tasks', ['App\Http\Controllers\TaskController', 'index']);
+Route::apiResource('tasks', 'App\Http\Controllers\TaskController');
