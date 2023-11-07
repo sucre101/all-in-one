@@ -1,4 +1,4 @@
 .env
 .idea
 /mysqldb/**
-ide-helper.php
+backend/laravel/**/ide-helper.php
