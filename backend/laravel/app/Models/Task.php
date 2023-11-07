@@ -29,5 +29,10 @@ class Task extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    protected $guarded = [];
+
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+        'updated_at' => 'datetime:Y-m-d',
+    ];
 }

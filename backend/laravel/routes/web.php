@@ -12,7 +12,3 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', ['App\Http\Controllers\UserController', 'index']);
-//Route::get('/tasks', ['App\Http\Controllers\TaskController', 'index']);
-Route::apiResource('tasks', 'App\Http\Controllers\TaskController');

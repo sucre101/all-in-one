@@ -35,13 +35,11 @@ services:
 
   nginx_laravel:
     image: nginx
-    environment:
-      - NGINX_HOST=${HOST_LARAVEL_VUE}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
       - "traefik.http.routers.nginx_laravel.entrypoints=web"
-      - "traefik.http.routers.nginx_laravel.rule=HostRegexp(`{domain:.+}`)"
+      - "traefik.http.routers.nginx_laravel.rule=Host(`current.localhost`) &&  PathPrefix(`/api`)"
       - "traefik.http.routers.nginx_laravel.priority=1"
       - "traefik.http.routers.nginx_laravel.service=nginx_laravel"
       - "traefik.http.services.nginx_laravel.loadbalancer.server.port=80"
@@ -84,6 +82,8 @@ services:
       dockerfile: ./docker/node/Dockerfile
     container_name: node-server
     command: npm run dev
+    environment:
+      - HOST
     depends_on:
       - mysqldb
     labels:
