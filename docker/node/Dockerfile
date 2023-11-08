@@ -1,12 +1,12 @@
 FROM node:16-alpine
 
+RUN mkdir /app && chown node:node /app
 WORKDIR /app
 
-COPY ./backend/node/package*.json ./
+USER node
+COPY --chown=node:node ./backend/node/package*.json ./
 
 RUN npm install
 COPY . .
 
 EXPOSE 8080
-
-#CMD [ "node", "server.js" ]

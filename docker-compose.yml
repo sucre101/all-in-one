@@ -90,12 +90,13 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
       - "traefik.http.routers.node-server.entrypoints=web"
-      - "traefik.http.routers.node-server.rule=Host(`traefik.docker.node`)" # work with /api
+      - "traefik.http.routers.node-server.rule=Host(`current.localhost`) &&  PathPrefix(`/api`)"
       - "traefik.http.routers.node-server.priority=1"
       - "traefik.http.routers.node-server.service=node-server"
       - "traefik.http.services.node-server.loadbalancer.server.port=80"
     volumes:
       - './backend/node:/app'
+      - '/backend/node/node_modules'
     networks:
       - traefik
     tty: true
