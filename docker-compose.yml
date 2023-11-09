@@ -76,14 +76,43 @@ services:
     networks:
       - traefik
 
+  adonis-server:
+    build:
+      context: '.'
+      dockerfile: ./docker/node/Dockerfile
+    container_name: adonis-server
+    image: 'dockertraefik-node-server'
+    command: npm run dev
+    restart: always
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - mysqldb
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.adonis-server.entrypoints=web"
+      - "traefik.http.routers.adonis-server.rule=Host(`current.localhost`) &&  PathPrefix(`/api`)"
+      - "traefik.http.routers.adonis-server.priority=1"
+      - "traefik.http.routers.adonis-server.service=adonis-server"
+      - "traefik.http.services.adonis-server.loadbalancer.server.port=80"
+    volumes:
+      - './backend/adonis:/app'
+      - '/backend/adonis/node_modules'
+    networks:
+      - traefik
+    tty: true
+
   node-server:
     build:
       context: '.'
       dockerfile: ./docker/node/Dockerfile
     container_name: node-server
+    image: 'dockertraefik-node-server'
     command: npm run dev
+    restart: always
     environment:
-      - HOST
+      - CHOKIDAR_USEPOLLING=true
     depends_on:
       - mysqldb
     labels:
