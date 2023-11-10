@@ -76,12 +76,33 @@ services:
     networks:
       - traefik
 
+  frontend-vue:
+    build:
+      context: '.'
+      dockerfile: ./docker/node/Dockerfile
+    container_name: frontend-vue
+    command: npm run dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.frontend-vue.entrypoints=web"
+      - "traefik.http.routers.frontend-vue.rule=Host(`current.localhost`)"
+      - "traefik.http.routers.frontend-vue.priority=1"
+      - "traefik.http.routers.frontend-vue.service=frontend-vue"
+      - "traefik.http.services.frontend-vue.loadbalancer.server.port=80"
+    volumes:
+      - './fronted/vue:/app'
+      - '/fronted/vue/node_modules'
+    networks:
+      - traefik
+
   adonis-server:
     build:
       context: '.'
       dockerfile: ./docker/node/Dockerfile
     container_name: adonis-server
-    image: 'dockertraefik-node-server'
     command: npm run dev
     restart: always
     environment:
