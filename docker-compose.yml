@@ -4,7 +4,6 @@ networks:
   traefik:
 
 services:
-
   traefik:
     image: "traefik:v2.10"
     container_name: "traefik"
@@ -39,13 +38,15 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
       - "traefik.http.routers.nginx-laravel.entrypoints=web"
-      - "traefik.http.routers.nginx-laravel.rule=Host(`current.localhost`) &&  PathPrefix(`/api`)"
+      - "traefik.http.routers.nginx-laravel.rule=Host(`api.current.localhost`)"
       - "traefik.http.routers.nginx-laravel.priority=1"
       - "traefik.http.routers.nginx-laravel.service=nginx-laravel"
       - "traefik.http.services.nginx-laravel.loadbalancer.server.port=80"
     volumes:
       - './docker/nginx:/etc/nginx/conf.d/'
       - './backend/laravel:/var/www'
+    expose:
+      - 8085
     networks:
       - traefik
     links:
@@ -99,6 +100,9 @@ services:
     networks:
       - traefik
     tty: true
+    links:
+      - nginx-laravel
+
 
   adonis-server:
     build:
@@ -115,7 +119,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
       - "traefik.http.routers.adonis-server.entrypoints=web"
-      - "traefik.http.routers.adonis-server.rule=Host(`current.localhost`) &&  PathPrefix(`/api`)"
+      - "traefik.http.routers.adonis-server.rule=Host(`api.current.localhost`)"
       - "traefik.http.routers.adonis-server.priority=1"
       - "traefik.http.routers.adonis-server.service=adonis-server"
       - "traefik.http.services.adonis-server.loadbalancer.server.port=80"
@@ -142,7 +146,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
       - "traefik.http.routers.node-server.entrypoints=web"
-      - "traefik.http.routers.node-server.rule=Host(`current.localhost`) &&  PathPrefix(`/api`)"
+      - "traefik.http.routers.node-server.rule=Host(`api.current.localhost`)"
       - "traefik.http.routers.node-server.priority=1"
       - "traefik.http.routers.node-server.service=node-server"
       - "traefik.http.services.node-server.loadbalancer.server.port=80"
