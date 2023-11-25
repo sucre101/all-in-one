@@ -16,7 +16,7 @@ const devWebpackConfig = require('../config/dev')
 const devServerOptions = devWebpackConfig.devServer
 const protocol = devServerOptions.https ? 'https' : 'http'
 const host = devServerOptions.host || ''
-const port = devServerOptions.port || 80
+const port = devServerOptions.port || 3030
 
 info('Starting development server...')
 

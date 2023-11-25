@@ -16,10 +16,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'success' => true,
-            'tasks' =>  new TaskCollection(Task::paginate(5)),
-        ]);
+        return response()->json(Task::all());
     }
 
     /**
