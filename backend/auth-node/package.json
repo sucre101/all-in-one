@@ -11,24 +11,10 @@
     "prestart": "npm run -s build",
     "test": "eslint src"
   },
-  "eslintConfig": {
-    "extends": "eslint:recommended",
-    "parserOptions": {
-      "ecmaVersion": 7,
-      "sourceType": "module"
-    },
-    "env": {
-      "node": true
-    },
-    "rules": {
-      "no-console": 0,
-      "no-unused-vars": 1
-    }
-  },
   "dependencies": {
-    "body-parser": "^1.13.3",
     "cors": "^2.7.1",
     "express": "^4.13.3",
+    "jsonwebtoken": "^9.0.2",
     "mariadb": "^3.2.2",
     "sequelize": "^6.34.0"
   },

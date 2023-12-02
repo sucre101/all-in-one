@@ -137,6 +137,7 @@ services:
     image: 'dockertraefik-node-server'
     command: npm run dev
     restart: always
+    env_file: .env
     environment:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
