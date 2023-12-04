@@ -126,6 +126,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'jwt-secret' => env('NODE_AUTH_SALT'),
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
