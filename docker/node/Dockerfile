@@ -9,6 +9,6 @@ COPY --chown=node:node ./backend/node/package*.json ./
 RUN npm install
 COPY . .
 
-EXPOSE 3686
+EXPOSE 80
 
 CMD ["npm", "run", "dev"]

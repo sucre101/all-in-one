@@ -1,29 +1,29 @@
-# vue3-boilerplate
+# vue
 
-A Vue 3 Starter Boilerplate with Vue Router 4, Pinia 2, Typescript 5, Webpack 5, Prettier and More.
-
-**And not using the Vue CLI.**
-
-## Architecture
-
-```text
-├─ public           // static assets.
-├─ service          // commands and webpack configurations.
-├─ src
-│  ├─ assets        // assets such as images or font files.
-│  ├─ components    // universal Vue components.
-│  ├─ router        // view's routers config.
-│  ├─ stores        // Pinia stores.
-│  ├─ typings       // typescript .d.ts files.
-│  └─ views         // pages.
+## Project setup
+```
+npm install
 ```
 
-## Commands
-
-```bash
-# Start development server.
-yarn dev
-
-# Compile production bundle.
-yarn build
+### Compiles and hot-reloads for development
 ```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your unit tests
+```
+npm run test:unit
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
