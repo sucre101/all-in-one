@@ -1,4 +1,4 @@
-FROM php:8.1-fpm-alpine
+FROM php:8.4.13-fpm-alpine
 
 # Install PHP extensions
 RUN docker-php-ext-install mysqli pdo pdo_mysql sockets
